@@ -401,6 +401,36 @@ def handle_command(command, channel):
 						  text="An error occured with the title of the movie you entered, try again.", as_user=True)
 	if command.startswith(commandlist[21]):
 		mathtxt = command[5:len(command)]
+		if "+" in mathtxt:
+			i = mathtxt.index("+")
+			num = float(mathtxt[0:i])
+			num1 = float(mathtxt[i:len(mathtxt)])
+			response1 = int(num+num1)
+			slack_client.api_call("chat.postMessage", channel=channel,
+						  text=response1, as_user=True)
+		if "-" in mathtxt:
+			i = mathtxt.index("-")
+			num = float(mathtxt[0:i])
+			num1 = float(mathtxt[i+1:len(mathtxt)])
+			print num
+			print num1
+			response1 = int(num - num1)
+			slack_client.api_call("chat.postMessage", channel=channel,
+						  text=response1, as_user=True)
+		if "*" in mathtxt:
+			i = mathtxt.index("*")
+			num = float(mathtxt[0:i])
+			num1 = float(mathtxt[i+1:len(mathtxt)])
+			response1 = int(num*num1)
+			slack_client.api_call("chat.postMessage", channel=channel,
+						  text=response1, as_user=True)
+		if "/" in mathtxt and "%" not in mathtxt:
+			i = mathtxt.index("/")
+			num = float(mathtxt[0:i])
+			num1 = float(mathtxt[i+1:len(mathtxt)])
+			response1 = float(num/num1)
+			slack_client.api_call("chat.postMessage", channel=channel,
+						  text=response1, as_user=True)
 		if "sq" in mathtxt:
 			i = mathtxt.index("sq")
 			num = float(mathtxt[i+2:len(mathtxt)])
@@ -445,7 +475,7 @@ def handle_command(command, channel):
 			response1 = math.pow(x,y)
 			slack_client.api_call("chat.postMessage", channel=channel,
 						  text=response1, as_user=True)
-		if "%" in mathtxt:
+		if "%" in mathtxt and "/" in mathtxt:
 			i = mathtxt.index("%")
 			slash = mathtxt.index("/")
 			x = float(mathtxt[i+1:slash])
@@ -459,110 +489,16 @@ def handle_command(command, channel):
 
 			slack_client.api_call("chat.postMessage", channel=channel,
 						  text=response1, as_user=True)
-			
+		if "%" in mathtxt and "of" in mathtxt:
+			i = mathtxt.index("%")
+			slash = mathtxt.index("of")
+			x = float(mathtxt[i+1:slash])
+			y = float(mathtxt[slash+2:len(mathtxt)])
+			z = x/100
+			txt = str(z*y)
+			slack_client.api_call("chat.postMessage", channel=channel,
+						  text=txt, as_user=True)
 
-		#else:
-			#slack_client.api_call("chat.postMessage", channel=channel,
-						  #text="Mathematical operation not recognized.", as_user=True)
-
-
-
-	if '+' in command:
-		if len(command) == 3:
-			response1 = int(command[0]) + int(command[2])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 5:
-			response1 = int(command[0]+command[1]) + int(command[3]+command[4])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 7:
-			response1 = int(command[0]+command[1]+command[2]) + int(command[4]+command[5]+command[6])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-	if '-' in command:
-		if len(command) == 3:
-			response1 = int(command[0]) - int(command[2])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 5:
-			response1 = int(command[0]+command[1]) - int(command[3]+command[4])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 7:
-			response1 = int(command[0]+command[1]+command[2]) - int(command[4]+command[5]+command[6])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-	if '*' in command:
-		if len(command) == 3:
-			response1 = int(command[0]) * int(command[2])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 5:
-			response1 = int(command[0]+command[1]) * int(command[3]+command[4])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 6 and '.' not in command and command[2] == '*':
-			response1 = int(command[0]+command[1]) * int(command[3]+command[4]+command[5])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 6 and '.' not in command and command[2] != '*':
-			response1 = int(command[0]+command[1]+command[2]) * int(command[4]+command[5])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 6 and '.' in command:
-			response1 = int(command[0]+command[1]) * float(command[4]+command[5])/100
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 7:
-			response1 = int(command[0]+command[1]+command[2]) * int(command[4]+command[5]+command[6])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-
-	if '/' in command:
-		if len(command) == 3:
-			response1 = float(command[0]) / float(command[2])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 5:
-			response1 = float(command[0]+command[1]) / float(command[3]+command[4])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 6:
-			response1 = float(command[0]+command[1]+command[2]) / float(command[4]+command[5])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 7:
-			response1 = float(command[0]+command[1]+command[2]) / float(command[4]+command[5]+command[6])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 8 and command[5] != '/':
-			response1 = float(command[0]+command[1]+command[2]+command[3]) / float(command[5]+command[6]+command[7])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-		if len(command) == 8 and command[5] == '/':
-			response1 = float(command[0]+command[1]+command[2]+command[3]+command[4]) / float(command[6]+command[7])
-			slack_client.api_call("chat.postMessage", channel=channel,
-						  text=response1, as_user=True)
-
-
-	
-
-	#if einstein == True:
-		#math1 = command
-		#if command.startswith(math1):
-			#zipp = False
-			#mresponse = int(math1)*10
-			#slack_client.api_call("chat.postMessage", channel=channel,
-						  #text=mresponse, as_user=True)
-	#if command != math1:
-		#einstein = False
-   
-	
-	#else:
-		#response2 = "Hm...that doesn't look like a valid zipcode. Try again."
-		#slack_client.api_call("chat.postMessage", channel=channel,
-						  #text=response2, as_user=True)
 
 def parse_slack_output(slack_rtm_output):
 	"""
