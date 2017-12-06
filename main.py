@@ -5,10 +5,11 @@ import vlc
 import simplejson as json
 from sklearn import tree
 
+#The variable for the token and ID for the SlackClient to connect to Slack.
 sc = SlackClient(os.environ.get('TATTLE_TOKEN'))
 TATTLE_ID = os.environ.get("TATTLE_ID")
 jobsquote = "_'Stay Hungry. Stay Foolish.' It was their farewell message as they signed off. Stay Hungry. Stay Foolish. And I have always wished that for myself. And now, as you graduate to begin anew, I wish that for you. Stay Hungry. Stay Foolish. - Steve Jobs, Stanford commencement speech_"
-#music = json.toJSON(vlc.MediaPlayer("https://www.dropbox.com/s/m7vcfd62a9jb7im/OKAY.m4a?dl=0").__dict__)
+
 
 noteNames = []
 again = []
@@ -16,7 +17,7 @@ names_file = open("names.txt", "a")
 array = []
 
 
-
+#The main loop that allows tbot to "listen" to RTM in the designated Slack site.
 if sc.rtm_connect():
 		while True:
 			for slack_messages in sc.rtm_read():
@@ -73,13 +74,13 @@ if sc.rtm_connect():
 						if 'tattlebot' == yo and usr == 'U7HT7GQ01':
 							sc.api_call( "chat.postMessage", channel=channels, text="You want something from me, Tom?", as_user=True)
 						if 'who am i' in yo and usr == 'U7KFBEGCF':
-							sc.api_call( "chat.postMessage", channel=channels, text="You're Bryan. You are 28 years old and live in Colorado.", as_user=True)
+							sc.api_call( "chat.postMessage", channel=channels, text="You're Bryan. You are x years old and live in Colorado.", as_user=True)
 						if 'who am i' in yo and usr == 'U7KF5HRNK':
-							sc.api_call( "chat.postMessage", channel=channels, text="You're Nick. You are 22 years old and live in Connecticut.", as_user=True)
+							sc.api_call( "chat.postMessage", channel=channels, text="You're Nick. You are y years old and live in Connecticut.", as_user=True)
 						if 'who am i' in yo and usr == 'U7KF4KBJB':
-							sc.api_call( "chat.postMessage", channel=channels, text="You're Max. You are 30 years old and live in Connecticut.", as_user=True)
+							sc.api_call( "chat.postMessage", channel=channels, text="You're Max. You are z years old and live in Connecticut.", as_user=True)
 						if 'who am i' in yo and usr == 'U7HT7GQ01':
-							sc.api_call( "chat.postMessage", channel=channels, text="You're Tom. You are 24 years old and live in Colorado.", as_user=True)
+							sc.api_call( "chat.postMessage", channel=channels, text="You're Tom. You are q years old and live in Colorado.", as_user=True)
 						if 'ya little sheet' in yo:
 							sc.api_call( "chat.postMessage", channel=channels, text="_Poohdawg was slapped._", as_user=True)
 						if 'tattlebot' in yo and 'awesome' in yo or 'best' in yo or 'the man' in yo:
@@ -94,7 +95,7 @@ if sc.rtm_connect():
 								msg1 = array[-1]
 							sc.api_call( "chat.postMessage", channel=channels, text='<@rosenbot> ' + msg1, as_user=True)
 						bot = 0
-						if 'kill' in yo:
+						if 'k' in yo:
 							bot = 1
 
 						ex = 0
